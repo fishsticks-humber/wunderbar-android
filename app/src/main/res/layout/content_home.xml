@@ -10,8 +10,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.wunderbar_humber.wunderbar.RestaurantFragment"
+        tools:listitem="@layout/fragment_restaurant">
+
     </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

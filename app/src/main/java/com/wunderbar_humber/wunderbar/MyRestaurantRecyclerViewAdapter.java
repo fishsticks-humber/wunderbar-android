@@ -18,11 +18,11 @@ import java.util.List;
  */
 public class MyRestaurantRecyclerViewAdapter extends RecyclerView.Adapter<MyRestaurantRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Restaurant> mValues;
+    private final List<Restaurant> restaurantList;
     private final OnListFragmentInteractionListener mListener;
 
     public MyRestaurantRecyclerViewAdapter(List<Restaurant> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+        restaurantList = items;
         mListener = listener;
     }
 
@@ -35,9 +35,7 @@ public class MyRestaurantRecyclerViewAdapter extends RecyclerView.Adapter<MyRest
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem = restaurantList.get(position);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,25 +51,21 @@ public class MyRestaurantRecyclerViewAdapter extends RecyclerView.Adapter<MyRest
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return restaurantList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
         public Restaurant mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + "'";
         }
     }
 }
