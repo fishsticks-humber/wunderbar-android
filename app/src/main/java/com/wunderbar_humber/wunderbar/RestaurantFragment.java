@@ -10,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wunderbar_humber.wunderbar.dummy.DummyContent;
-import com.wunderbar_humber.wunderbar.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import com.wunderbar_humber.wunderbar.model.DummyContent;
+import com.wunderbar_humber.wunderbar.model.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.

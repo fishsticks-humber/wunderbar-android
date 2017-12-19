@@ -1,4 +1,4 @@
-package com.wunderbar_humber.wunderbar.dummy;
+package com.wunderbar_humber.wunderbar.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

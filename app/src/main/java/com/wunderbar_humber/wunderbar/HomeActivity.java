@@ -3,6 +3,8 @@ package com.wunderbar_humber.wunderbar;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +15,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.wunderbar_humber.wunderbar.model.DummyContent;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    RecyclerView mainRecyclerView;
+    RecyclerView.Adapter restaurantAdapter;
+    DummyContent content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +31,18 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // populate the recycler view using the adapter
+        mainRecyclerView = findViewById(R.id.list);
+        mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        content = new DummyContent();
+        restaurantAdapter = new RestaurantRecyclerViewAdapter(content.ITEMS, new RestaurantFragment.OnListFragmentInteractionListener() {
+            @Override
+            public void onListFragmentInteraction(DummyContent.DummyItem item) {
+                
+            }
+        });
+        mainRecyclerView.setAdapter(restaurantAdapter);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

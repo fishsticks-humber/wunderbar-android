@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wunderbar_humber.wunderbar.RestaurantFragment.OnListFragmentInteractionListener;
-import com.wunderbar_humber.wunderbar.dummy.DummyContent.DummyItem;
+import com.wunderbar_humber.wunderbar.model.DummyContent.DummyItem;
 
 import java.util.List;
 
