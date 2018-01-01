@@ -9,17 +9,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.wunderbar_humber.wunderbar.model.RestaurantList;
+import com.yelp.fusion.client.connection.YelpFusionApi;
+import com.yelp.fusion.client.connection.YelpFusionApiFactory;
+import com.yelp.fusion.client.models.Business;
+import com.yelp.fusion.client.models.SearchResponse;
+
+import java.io.IOException;
+
+import retrofit2.Call;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView mainRecyclerView;
-    RecyclerView.Adapter restaurantAdapter;
-    RestaurantList content;
+    private RecyclerView mainRecyclerView;
+    private RecyclerView.Adapter restaurantAdapter;
+    private RestaurantList content;
+    private YelpFusionApi yelp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +59,21 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // create yelp api instance in a background thread to prevent android.os.NetworkOnMainThreadException
+        Thread yelpCreatorThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    yelp = new YelpFusionApiFactory().createAPI(getResources().getString(R.string.yelp_api_key), getResources().getString(R.string.yelp_api_secret));
+                } catch (IOException e) {
+                    Log.e("YELP", "Authentication Error", e);
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        yelpCreatorThread.start();
     }
 
     @Override
