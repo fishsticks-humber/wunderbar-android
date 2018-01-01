@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wunderbar_humber.wunderbar.model.DummyContent;
-import com.wunderbar_humber.wunderbar.model.DummyContent.DummyItem;
+import com.wunderbar_humber.wunderbar.model.RestaurantList;
+import com.wunderbar_humber.wunderbar.model.RestaurantList.Restaurant;
 
 /**
  * A fragment representing a list of Items.
@@ -67,7 +67,7 @@ public class RestaurantFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new RestaurantRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new RestaurantRecyclerViewAdapter(RestaurantList.ITEMS, mListener));
         }
         return view;
     }
@@ -102,6 +102,6 @@ public class RestaurantFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Restaurant item);
     }
 }
