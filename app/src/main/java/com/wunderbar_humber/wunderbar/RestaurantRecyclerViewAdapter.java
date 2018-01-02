@@ -1,29 +1,34 @@
 package com.wunderbar_humber.wunderbar;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.wunderbar_humber.wunderbar.RestaurantFragment.OnListFragmentInteractionListener;
-import com.wunderbar_humber.wunderbar.model.RestaurantList.Restaurant;
+import com.yelp.fusion.client.models.Business;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Restaurant} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Business} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Restaurant> mValues;
+    private final List<Business> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private final Context context;
 
-    public RestaurantRecyclerViewAdapter(List<Restaurant> items, OnListFragmentInteractionListener listener) {
+    public RestaurantRecyclerViewAdapter(List<Business> items, OnListFragmentInteractionListener listener, Context context) {
         mValues = items;
         mListener = listener;
+        this.context = context;
     }
 
     @Override
@@ -36,8 +41,12 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getName());
+        holder.mContentView.setText(mValues.get(position).getPrice());
+
+        String imageUrl = mValues.get(position).getImageUrl();
+        Picasso.with(context).load(imageUrl).into(holder.imageView);
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +69,15 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public Restaurant mItem;
+        public final ImageView imageView;
+        public Business mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
+            imageView = view.findViewById(R.id.restaurantImage);
         }
 
         @Override

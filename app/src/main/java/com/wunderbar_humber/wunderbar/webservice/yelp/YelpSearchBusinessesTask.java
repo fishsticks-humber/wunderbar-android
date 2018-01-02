@@ -1,4 +1,4 @@
-package com.wunderbar_humber.wunderbar.webservice;
+package com.wunderbar_humber.wunderbar.webservice.yelp;
 
 import android.os.AsyncTask;
 import android.util.Log;

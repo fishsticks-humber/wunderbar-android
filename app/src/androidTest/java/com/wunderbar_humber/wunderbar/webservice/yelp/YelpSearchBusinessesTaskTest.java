@@ -1,6 +1,4 @@
-package com.wunderbar_humber.wunderbar.webservice;
-
-import android.util.Log;
+package com.wunderbar_humber.wunderbar.webservice.yelp;
 
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.models.Business;
@@ -15,7 +13,8 @@ import java.util.Map;
 
 import retrofit2.Call;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by mohit on 2018-01-01.

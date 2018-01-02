@@ -1,4 +1,4 @@
-package com.wunderbar_humber.wunderbar.webservice;
+package com.wunderbar_humber.wunderbar.webservice.yelp;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -29,8 +29,7 @@ public class YelpGetBusinessTask extends AsyncTask<Call<Business>, Void, Busines
     protected Business doInBackground(Call<Business>[] calls) {
         Business business = null;
         try {
-        Call<Business> businessCall = calls[0];
-
+            Call<Business> businessCall = calls[0];
             Response<Business> businessResponse = businessCall.execute();
             business = businessResponse.body();
         } catch (IOException e) {

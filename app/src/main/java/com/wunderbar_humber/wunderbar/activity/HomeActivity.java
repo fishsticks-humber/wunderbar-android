@@ -1,38 +1,29 @@
-package com.wunderbar_humber.wunderbar;
+package com.wunderbar_humber.wunderbar.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.wunderbar_humber.wunderbar.model.RestaurantList;
-import com.wunderbar_humber.wunderbar.webservice.YelpInitializeApiTask;
-import com.yelp.fusion.client.connection.YelpFusionApi;
-import com.yelp.fusion.client.connection.YelpFusionApiFactory;
+import com.wunderbar_humber.wunderbar.R;
+import com.wunderbar_humber.wunderbar.RestaurantFragment;
+import com.wunderbar_humber.wunderbar.RestaurantRecyclerViewAdapter;
+import com.wunderbar_humber.wunderbar.model.HomeModel;
 import com.yelp.fusion.client.models.Business;
-import com.yelp.fusion.client.models.SearchResponse;
-
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-
-import retrofit2.Call;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mainRecyclerView;
     private RecyclerView.Adapter restaurantAdapter;
-    private RestaurantList content;
-    private YelpFusionApi yelp;
+    private HomeModel homeModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +32,17 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // create a yelp api instance
-        try {
-            yelp = new YelpInitializeApiTask().execute().get();
-        } catch (InterruptedException e) {
-            Log.e("Yelp Initialization", "Yelp API interrupted", e);
-        } catch (ExecutionException e) {
-            Log.e("Yelp Initialization", "Exception while initializing Yelp API", e);
-        }
-
         // populate the recycler view using the adapter
         mainRecyclerView = findViewById(R.id.list);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        content = new RestaurantList();
-        restaurantAdapter = new RestaurantRecyclerViewAdapter(content.ITEMS, new RestaurantFragment.OnListFragmentInteractionListener() {
+        homeModel = new HomeModel("40.581140", "-111.914184");
+        restaurantAdapter = new RestaurantRecyclerViewAdapter(homeModel.getBusinessList(), new RestaurantFragment.OnListFragmentInteractionListener() {
             @Override
-            public void onListFragmentInteraction(RestaurantList.Restaurant item) {
+            public void onListFragmentInteraction(Business business) {
 
             }
-        });
+        }, this.getApplicationContext());
         mainRecyclerView.setAdapter(restaurantAdapter);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
