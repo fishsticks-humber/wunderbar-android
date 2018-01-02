@@ -1,6 +1,7 @@
 package com.wunderbar_humber.wunderbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.wunderbar_humber.wunderbar.RestaurantFragment.OnListFragmentInteractionListener;
+import com.wunderbar_humber.wunderbar.activity.RestaurantActivity;
 import com.wunderbar_humber.wunderbar.model.HomeModel;
 import com.yelp.fusion.client.models.Business;
 
@@ -52,25 +54,22 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).getName());
         holder.mContentView.setText(mValues.get(position).getPrice());
 
         String imageUrl = mValues.get(position).getImageUrl();
-
         if (StringUtils.isNotEmpty(imageUrl)) {
             Picasso.with(context).load(imageUrl).into(holder.imageView);
         }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), RestaurantActivity.class);
+                intent.putExtra("restaurantId", mValues.get(position).getId());
+                view.getContext().startActivity(intent);
             }
         });
     }
@@ -90,8 +89,8 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = view.findViewById(R.id.id);
+            mContentView = view.findViewById(R.id.content);
             imageView = view.findViewById(R.id.restaurantImage);
         }
 

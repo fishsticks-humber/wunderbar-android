@@ -8,8 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.wunderbar_humber.wunderbar.R;
+import com.wunderbar_humber.wunderbar.model.RestaurantModel;
 
 public class RestaurantActivity extends AppCompatActivity {
+
+    private RestaurantModel restaurantModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,5 +30,10 @@ public class RestaurantActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String restaurantId = getIntent().getStringExtra("restaurantId");
+        restaurantModel = new RestaurantModel(restaurantId);
+
+
     }
 }
