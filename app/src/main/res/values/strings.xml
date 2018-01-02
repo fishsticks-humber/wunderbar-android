@@ -5,8 +5,4 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    
-    <string name="yelp_api_key">1MYkC01ehtuQzF5hzSPL-A</string>
-    <string name="yelp_api_secret">nR5AJp4yyIsEVxVw7jcCUQK1bIWEeHQ22v7g6XeLRzobqSOTs9iqaeLnr3uanV0e</string>
-
 </resources>

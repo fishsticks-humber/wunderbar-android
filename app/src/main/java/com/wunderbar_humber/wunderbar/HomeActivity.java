@@ -1,5 +1,6 @@
 package com.wunderbar_humber.wunderbar;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.wunderbar_humber.wunderbar.model.RestaurantList;
+import com.wunderbar_humber.wunderbar.webservice.YelpInitializeApiTask;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.connection.YelpFusionApiFactory;
 import com.yelp.fusion.client.models.Business;
 import com.yelp.fusion.client.models.SearchResponse;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
@@ -38,6 +41,15 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // create a yelp api instance
+        try {
+            yelp = new YelpInitializeApiTask().execute().get();
+        } catch (InterruptedException e) {
+            Log.e("Yelp Initialization", "Yelp API interrupted", e);
+        } catch (ExecutionException e) {
+            Log.e("Yelp Initialization", "Exception while initializing Yelp API", e);
+        }
+
         // populate the recycler view using the adapter
         mainRecyclerView = findViewById(R.id.list);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -46,7 +58,7 @@ public class HomeActivity extends AppCompatActivity
         restaurantAdapter = new RestaurantRecyclerViewAdapter(content.ITEMS, new RestaurantFragment.OnListFragmentInteractionListener() {
             @Override
             public void onListFragmentInteraction(RestaurantList.Restaurant item) {
-                
+
             }
         });
         mainRecyclerView.setAdapter(restaurantAdapter);
@@ -59,21 +71,6 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        // create yelp api instance in a background thread to prevent android.os.NetworkOnMainThreadException
-        Thread yelpCreatorThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    yelp = new YelpFusionApiFactory().createAPI(getResources().getString(R.string.yelp_api_key), getResources().getString(R.string.yelp_api_secret));
-                } catch (IOException e) {
-                    Log.e("YELP", "Authentication Error", e);
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        yelpCreatorThread.start();
     }
 
     @Override
