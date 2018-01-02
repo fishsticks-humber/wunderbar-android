@@ -20,6 +20,7 @@ import retrofit2.Response;
  */
 public class YelpSearchBusinessesTask extends AsyncTask<Call<SearchResponse>, Void, List<Business>> {
 
+    Exception exception;
 
     @Override
     protected List<Business> doInBackground(Call<SearchResponse>[] calls) {
@@ -30,7 +31,9 @@ public class YelpSearchBusinessesTask extends AsyncTask<Call<SearchResponse>, Vo
             businessList = searchResponse.body().getBusinesses();
         } catch (IOException e) {
             Log.e("YELP SEARCH", "Error while executing", e);
+            exception = e;
         } catch (ArrayIndexOutOfBoundsException e) {
+            exception = e;
             Log.e("YELP SEARCH", "You didn't supply the call parameter while executing. USAGE : new YelpSearchBusinessesTask().execute(<call to execute>)", e);
         }
         return businessList;

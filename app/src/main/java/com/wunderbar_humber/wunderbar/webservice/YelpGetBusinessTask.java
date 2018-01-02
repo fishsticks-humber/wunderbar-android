@@ -18,6 +18,8 @@ import retrofit2.Response;
  */
 public class YelpGetBusinessTask extends AsyncTask<Call<Business>, Void, Business> {
 
+    Exception exception;
+
     /**
      * Gets the business from the yelp api
      * @param calls
@@ -33,8 +35,10 @@ public class YelpGetBusinessTask extends AsyncTask<Call<Business>, Void, Busines
             business = businessResponse.body();
         } catch (IOException e) {
             Log.e("YELP BUSINESS", "Error while executing", e);
+            exception = e;
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.e("YELP SEARCH", "You didn't supply the call parameter while executing. USAGE : new YelpSearchBusinessesTask().execute(<call to execute>)", e);
+            exception = e;
         }
         return business;
     }
