@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wunderbar_humber.wunderbar.model.HomeModel;
 import com.yelp.fusion.client.models.Business;
 
 /**
@@ -67,7 +66,7 @@ public class RestaurantFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new RestaurantRecyclerViewAdapter(HomeModel.ITEMS, mListener, this.getContext()));
+            //recyclerView.setAdapter(new RestaurantRecyclerViewAdapter(HomeModel.ITEMS, mListener, this.getContext()));
         }
         return view;
     }

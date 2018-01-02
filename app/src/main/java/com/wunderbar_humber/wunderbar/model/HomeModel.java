@@ -1,5 +1,6 @@
 package com.wunderbar_humber.wunderbar.model;
 
+import android.location.Location;
 import android.util.Log;
 
 import com.wunderbar_humber.wunderbar.webservice.yelp.YelpInitializeApiTask;
@@ -34,6 +35,12 @@ public class HomeModel {
     private YelpFusionApi yelp;
     private Map<String, String> yelpSearchParams;
 
+    /**
+     * create home model with the users location
+     */
+    public HomeModel(Location location) {
+        this(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
+    }
 
     public HomeModel(String latitude, String longitude) {
         // create a yelp api instance
@@ -44,21 +51,11 @@ public class HomeModel {
         } catch (ExecutionException e) {
             Log.e("Yelp Initialization", "Exception while initializing Yelp API", e);
         }
-
         yelpSearchParams = new HashMap<>();
         setLatitude(latitude);
         setLongitude(longitude);
 
-        Call<SearchResponse> searchCall = yelp.getBusinessSearch(yelpSearchParams);
-
-        try {
-            businessList = new YelpSearchBusinessesTask().execute(searchCall).get();
-        } catch (InterruptedException e) {
-            Log.e("Yelp Search", "Interrupted while searching", e);
-        } catch (ExecutionException e) {
-            Log.e("Yelp Search", "Execution exception while searching", e);
-        }
-
+        searchRestaurants();
     }
 
     private static void addItem(Business item) {
@@ -76,10 +73,27 @@ public class HomeModel {
         return builder.toString();
     }
 
-    public void populateItems() {
+    /**
+     * Search for restaurants at the current location on yelp
+     */
+    public void searchRestaurants() {
 
+        Call<SearchResponse> searchCall = yelp.getBusinessSearch(yelpSearchParams);
+
+        try {
+            businessList = new YelpSearchBusinessesTask().execute(searchCall).get();
+        } catch (InterruptedException e) {
+            Log.e("Yelp Search", "Interrupted while searching", e);
+        } catch (ExecutionException e) {
+            Log.e("Yelp Search", "Execution exception while searching", e);
+        }
     }
 
+
+    public void setLocation(Location location) {
+        setLatitude(String.valueOf(location.getLatitude()));
+        setLongitude(String.valueOf(location.getLongitude()));
+    }
 
     public void setLatitude(String latitude) {
         yelpSearchParams.put("latitude", latitude);

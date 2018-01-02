@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.wunderbar_humber.wunderbar.RestaurantFragment.OnListFragmentInteractionListener;
+import com.wunderbar_humber.wunderbar.model.HomeModel;
 import com.yelp.fusion.client.models.Business;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -21,14 +24,24 @@ import java.util.List;
  */
 public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<RestaurantRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Business> mValues;
     private final OnListFragmentInteractionListener mListener;
     private final Context context;
+    private List<Business> mValues;
 
-    public RestaurantRecyclerViewAdapter(List<Business> items, OnListFragmentInteractionListener listener, Context context) {
-        mValues = items;
+    public RestaurantRecyclerViewAdapter(HomeModel model, OnListFragmentInteractionListener listener, Context context) {
+        mValues = model.getBusinessList();
         mListener = listener;
         this.context = context;
+    }
+
+    /**
+     * Updates the Recycler View with the new data
+     *
+     * @param businesses the new data
+     */
+    public void updateData(List<Business> businesses) {
+        this.mValues = businesses;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,8 +58,10 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
         holder.mContentView.setText(mValues.get(position).getPrice());
 
         String imageUrl = mValues.get(position).getImageUrl();
-        Picasso.with(context).load(imageUrl).into(holder.imageView);
 
+        if (StringUtils.isNotEmpty(imageUrl)) {
+            Picasso.with(context).load(imageUrl).into(holder.imageView);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
