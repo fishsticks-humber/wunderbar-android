@@ -52,6 +52,7 @@ public class HomeModel {
             Log.e("Yelp Initialization", "Exception while initializing Yelp API", e);
         }
         yelpSearchParams = new HashMap<>();
+        yelpSearchParams.put("categories", "restaurants, All, nightlife, All");
         setLatitude(latitude);
         setLongitude(longitude);
 
@@ -101,6 +102,10 @@ public class HomeModel {
 
     public void setLongitude(String longitude) {
         yelpSearchParams.put("longitude", longitude);
+    }
+
+    public void setSearchTerm(String term) {
+        yelpSearchParams.put("term", term);
     }
 
     public List<Business> getBusinessList() {

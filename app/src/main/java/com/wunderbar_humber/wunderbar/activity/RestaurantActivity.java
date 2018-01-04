@@ -37,8 +37,8 @@ public class RestaurantActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         String restaurantId = getIntent().getStringExtra("restaurantId");
         restaurantModel = new RestaurantModel(restaurantId);
     }
