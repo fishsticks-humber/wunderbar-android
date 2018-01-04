@@ -1,6 +1,7 @@
 package com.wunderbar_humber.wunderbar.activity;
 
 import android.Manifest;
+import android.arch.persistence.room.Room;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -29,9 +30,12 @@ import com.wunderbar_humber.wunderbar.R;
 import com.wunderbar_humber.wunderbar.RestaurantFragment;
 import com.wunderbar_humber.wunderbar.RestaurantRecyclerViewAdapter;
 import com.wunderbar_humber.wunderbar.model.HomeModel;
+import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
+import com.wunderbar_humber.wunderbar.model.db.AppDatabase;
 import com.yelp.fusion.client.models.Business;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,6 +50,8 @@ public class HomeActivity extends AppCompatActivity
     private FusedLocationProviderClient locationProviderClient;
     private HomeModel homeModel;
     private String city;
+    private AppDatabase db;
+    private List<Bookmark> bookmarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +60,9 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // get database and bookmarks
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().build();
 
         // populate the recycler view using the adapter
         mainRecyclerView = findViewById(R.id.list);
@@ -93,7 +102,6 @@ public class HomeActivity extends AppCompatActivity
                 public void onSuccess(Location location) {
                     if (location != null) {
                         homeModel.setLocation(location);
-                        homeModel.searchRestaurants();
                         restaurantAdapter.updateData(homeModel.getBusinessList());
 
                         city = getCity(location.getLatitude(), location.getLongitude());
@@ -116,6 +124,12 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Add search functionality to the application
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -165,11 +179,27 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.filter_restaurants) {
-            // Handle the camera action
+            homeModel.clearSearchTerm();
+            homeModel.setCategoryToOnlyRestaurants();
+            restaurantAdapter.updateData(homeModel.getBusinessList());
         } else if (id == R.id.filter_nightlife) {
-
+            homeModel.clearSearchTerm();
+            homeModel.setCategoryToOnlyRestaurants();
+            restaurantAdapter.updateData(homeModel.getBusinessList());
         } else if (id == R.id.map_location_choose) {
 
+        } else if (id == R.id.bookmarks) {
+            List<Business> bookmarkBusinessList = new ArrayList<>();
+            for (Bookmark bookmark :
+                    db.bookmarkDao().getAll()) {
+                Business business = new Business();
+                business.setId(bookmark.getRestaurantId());
+                business.setImageUrl(bookmark.getImage());
+                business.setPrice(bookmark.getPrice());
+                business.setName(bookmark.getName());
+                bookmarkBusinessList.add(business);
+            }
+            restaurantAdapter.updateData(bookmarkBusinessList);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

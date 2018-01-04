@@ -52,7 +52,7 @@ public class HomeModel {
             Log.e("Yelp Initialization", "Exception while initializing Yelp API", e);
         }
         yelpSearchParams = new HashMap<>();
-        yelpSearchParams.put("categories", "restaurants, All, nightlife, All");
+        setCategoryToAll();
         setLatitude(latitude);
         setLongitude(longitude);
 
@@ -64,15 +64,6 @@ public class HomeModel {
         ITEM_MAP.put(item.getId(), item);
     }
 
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
 
     /**
      * Search for restaurants at the current location on yelp
@@ -94,6 +85,13 @@ public class HomeModel {
     public void setLocation(Location location) {
         setLatitude(String.valueOf(location.getLatitude()));
         setLongitude(String.valueOf(location.getLongitude()));
+        searchRestaurants();
+    }
+
+    public void setLocation(String latitide, String longitude) {
+        setLatitude(latitide);
+        setLongitude(longitude);
+        searchRestaurants();
     }
 
     public void setLatitude(String latitude) {
@@ -106,6 +104,12 @@ public class HomeModel {
 
     public void setSearchTerm(String term) {
         yelpSearchParams.put("term", term);
+        searchRestaurants();
+    }
+
+    public void clearSearchTerm() {
+        yelpSearchParams.remove("term");
+        searchRestaurants();
     }
 
     public List<Business> getBusinessList() {
@@ -115,4 +119,20 @@ public class HomeModel {
     public void setBusinessList(List<Business> businessList) {
         this.businessList = businessList;
     }
+
+    public void setCategoryToOnlyRestaurants() {
+        yelpSearchParams.put("categories", "restaurants, All");
+        searchRestaurants();
+    }
+
+    public void setCategoryToOnlyNightLife() {
+        yelpSearchParams.put("categories", "nightlife, All");
+        searchRestaurants();
+    }
+
+    public void setCategoryToAll() {
+        yelpSearchParams.put("categories", "restaurants, All, nightlife, All");
+        searchRestaurants();
+    }
+
 }
