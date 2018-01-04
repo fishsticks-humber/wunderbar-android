@@ -1,6 +1,7 @@
 package com.wunderbar_humber.wunderbar.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,8 @@ import android.view.View;
 
 import com.wunderbar_humber.wunderbar.R;
 import com.wunderbar_humber.wunderbar.model.RestaurantModel;
+
+import java.net.URLEncoder;
 
 public class RestaurantActivity extends AppCompatActivity {
 
@@ -46,5 +49,19 @@ public class RestaurantActivity extends AppCompatActivity {
         intent.putExtra("longitude", restaurantModel.getRestaurant().getCoordinates().getLongitude());
         intent.putExtra("restaurant", restaurantModel.getRestaurant().getName());
         view.getContext().startActivity(intent);
+    }
+
+    public void requestUber(View view) {
+        String uberUrl = "https://m.uber.com/ul/"
+                + "?client_id=HAb_WWbX4pVCH7Ugd8FuLHnhRR0cnSEQ"
+                + "&action=setPickup"
+                + "&pickup=my_location"
+                + "&dropoff[latitude]=" + restaurantModel.getRestaurant().getCoordinates().getLatitude()
+                + "&dropoff[longitude]=" + restaurantModel.getRestaurant().getCoordinates().getLongitude()
+                + "&dropoff[nickname]=" + URLEncoder.encode(restaurantModel.getRestaurant().getName());
+
+        Uri uri = Uri.parse(uberUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 }

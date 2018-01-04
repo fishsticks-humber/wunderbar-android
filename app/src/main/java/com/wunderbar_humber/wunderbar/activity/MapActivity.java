@@ -30,8 +30,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
     }
 
 
@@ -82,6 +80,4 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
-
-
 }
