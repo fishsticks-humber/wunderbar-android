@@ -12,6 +12,10 @@
             android:id="@+id/map_location_choose"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="Choose Location on Map" />
+        <item
+            android:id="@+id/bookmarks"
+            android:icon="@android:drawable/star_big_off"
+            android:title="Bookmarks" />
     </group>
 
     <item android:title="Communicate">
