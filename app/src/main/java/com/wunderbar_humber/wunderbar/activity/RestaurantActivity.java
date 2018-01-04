@@ -1,22 +1,28 @@
 package com.wunderbar_humber.wunderbar.activity;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.wunderbar_humber.wunderbar.R;
 import com.wunderbar_humber.wunderbar.model.RestaurantModel;
+import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
+import com.wunderbar_humber.wunderbar.model.db.AppDatabase;
 
 import java.net.URLEncoder;
+import java.util.List;
 
 public class RestaurantActivity extends AppCompatActivity {
 
     private RestaurantModel restaurantModel;
+    private AppDatabase database;
+    private FloatingActionButton bookmarkButton;
+    private List<Bookmark> bookmarks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +31,24 @@ public class RestaurantActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        // get database and bookmarks
+        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().build();
+        bookmarks = database.bookmarkDao().getAll();
+
+        // set up bookmark button and click listener
+        bookmarkButton = findViewById(R.id.bookmark_button);
+        bookmarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (restaurantModel.isBookmarked(bookmarks)) {
+                    Bookmark bookmark = restaurantModel.getBookmark();
+                    database.bookmarkDao().delete(bookmark);
+                    bookmarkButton.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_off));
+                } else {
+                    Bookmark bookmark = restaurantModel.createBookmark();
+                    database.bookmarkDao().insertAll(bookmark);
+                    bookmarkButton.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_on));
+                }
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,6 +59,10 @@ public class RestaurantActivity extends AppCompatActivity {
         super.onResume();
         String restaurantId = getIntent().getStringExtra("restaurantId");
         restaurantModel = new RestaurantModel(restaurantId);
+
+        if (restaurantModel.isBookmarked(bookmarks)) {
+            bookmarkButton.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_on));
+        }
     }
 
     public void openMap(View view) {
@@ -64,4 +86,6 @@ public class RestaurantActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
+
+
 }

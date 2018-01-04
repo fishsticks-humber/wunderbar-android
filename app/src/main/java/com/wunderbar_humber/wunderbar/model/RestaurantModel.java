@@ -2,11 +2,13 @@ package com.wunderbar_humber.wunderbar.model;
 
 import android.util.Log;
 
+import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
 import com.wunderbar_humber.wunderbar.webservice.yelp.YelpGetBusinessTask;
 import com.wunderbar_humber.wunderbar.webservice.yelp.YelpInitializeApiTask;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.models.Business;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -19,6 +21,7 @@ public class RestaurantModel {
 
     private Business restaurant;
     private YelpFusionApi yelp;
+    private Bookmark bookmark;
 
     public RestaurantModel(String restaurantId) {
         // create a yelp api instance
@@ -42,11 +45,50 @@ public class RestaurantModel {
         }
     }
 
+    /**
+     * Checks if this restaurant is bookmarked in the given list of bookmarks
+     *
+     * @param bookmarks list of bookmarks to check in
+     * @return true if bookmarked
+     */
+    public boolean isBookmarked(List<Bookmark> bookmarks) {
+        boolean isBookmarked = false;
+        for (Bookmark bookmark : bookmarks) {
+            if (bookmark.getRestaurantId().equals(this.restaurant.getId())) {
+                this.bookmark = bookmark;
+                isBookmarked = true;
+            }
+        }
+        return isBookmarked;
+    }
+
+    /**
+     * Create bookmark of the current restaurant
+     *
+     * @return created bookmark
+     */
+    public Bookmark createBookmark() {
+        Bookmark bookmark = new Bookmark();
+        bookmark.setRestaurantId(restaurant.getId());
+        bookmark.setName(restaurant.getName());
+        bookmark.setImage(restaurant.getImageUrl());
+        bookmark.setPrice(restaurant.getPrice());
+        return bookmark;
+    }
+
     public Business getRestaurant() {
         return restaurant;
     }
 
     public void setRestaurant(Business restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Bookmark getBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(Bookmark bookmark) {
+        this.bookmark = bookmark;
     }
 }
