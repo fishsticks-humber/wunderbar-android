@@ -4,8 +4,6 @@ import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,10 +33,8 @@ import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
 import com.wunderbar_humber.wunderbar.model.db.AppDatabase;
 import com.yelp.fusion.client.models.Business;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,7 +64,7 @@ public class HomeActivity extends AppCompatActivity
         // populate the recycler view using the adapter
         mainRecyclerView = findViewById(R.id.list);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        homeModel = new HomeModel("43.7289", "-79.6073");
+        homeModel = new HomeModel("43.7289", "-79.6073", this, getSupportActionBar());
 
         restaurantAdapter = new RestaurantRecyclerViewAdapter(homeModel, new RestaurantFragment.OnListFragmentInteractionListener() {
             @Override
@@ -104,11 +100,6 @@ public class HomeActivity extends AppCompatActivity
                     if (location != null) {
                         homeModel.setLocation(location);
                         restaurantAdapter.updateData(homeModel.getBusinessList());
-
-                        city = getCity(location.getLatitude(), location.getLongitude());
-                        if (city != null) {
-                            getSupportActionBar().setTitle(city);
-                        }
                     }
                 }
             });
@@ -194,10 +185,12 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.map_location_choose) {
 
             Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-            intent.putExtra("latitude", homeModel.getLatitude());
-            intent.putExtra("longitude", homeModel.getLongitude());
+            intent.putExtra("latitude", Double.parseDouble(homeModel.getLatitude()));
+            intent.putExtra("longitude", Double.parseDouble(homeModel.getLongitude()));
             startActivityForResult(intent, 1);
+
         } else if (id == R.id.bookmarks) {
+
             List<Business> bookmarkBusinessList = new ArrayList<>();
             for (Bookmark bookmark :
                     db.bookmarkDao().getAll()) {
@@ -266,18 +259,4 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
-    public String getCity(double latitude, double longitude) {
-        String city = null;
-        Geocoder geoCoder = new Geocoder(this, Locale.getDefault()); //it is Geocoder
-        try {
-            List<Address> addressList = geoCoder.getFromLocation(latitude, longitude, 1);
-            Address address = addressList.get(0);
-            if (address != null) {
-                city = address.getSubLocality();
-            }
-        } catch (IOException e) {
-        } catch (NullPointerException e) {
-        }
-        return city;
-    }
 }

@@ -45,8 +45,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     protected void onStart() {
         super.onStart();
         // get latitude and longitude from intent
-        latitude = getIntent().getDoubleExtra("latitude", -34);
-        longitude = getIntent().getDoubleExtra("longitude", 151);
+        latitude = getIntent().getDoubleExtra("latitude", 43.7289);
+        longitude = getIntent().getDoubleExtra("longitude", -79.6073);
         restaurantName = getIntent().getStringExtra("restaurant");
         directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=" + latitude + "," + longitude;
     }
