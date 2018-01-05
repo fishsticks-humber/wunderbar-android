@@ -1,9 +1,12 @@
 package com.wunderbar_humber.wunderbar.activity;
 
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,6 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.wunderbar_humber.wunderbar.R;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMapLoadedCallback {
@@ -65,12 +69,47 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onMapLoaded() {
-        LatLng restaurantLocation = new LatLng(latitude, longitude);
+        LatLng location = new LatLng(latitude, longitude);
 
-        Marker restaurant = mMap.addMarker(new MarkerOptions().position(restaurantLocation).title(restaurantName).snippet("Click to get Directions"));
-        restaurant.showInfoWindow();
+        if (restaurantName != null) { // restaurant location mode
+            Marker restaurant = mMap.addMarker(new MarkerOptions().position(location).title(restaurantName).snippet("Click to get Directions"));
+            restaurant.showInfoWindow();
+        } else { // choose on map mode
+            Marker marker = mMap.addMarker(new MarkerOptions().position(location).title("Drag to set location").draggable(true));
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.map), "Choose Map Area to Search", Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("DONE", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VisibleRegion visibleRegion = mMap.getProjection().getVisibleRegion();
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(restaurantLocation));
+                    LatLng center = visibleRegion.latLngBounds.getCenter();
+
+                    LatLng farRight = visibleRegion.farRight;
+                    LatLng farLeft = visibleRegion.farLeft;
+                    LatLng nearRight = visibleRegion.nearRight;
+                    LatLng nearLeft = visibleRegion.nearLeft;
+
+                    float[] radius = new float[2];
+                    Location.distanceBetween(
+                            (farRight.latitude + nearRight.latitude) / 2,
+                            (farRight.longitude + nearRight.longitude) / 2,
+                            (farLeft.latitude + nearLeft.latitude) / 2,
+                            (farLeft.longitude + nearLeft.longitude) / 2,
+                            radius
+                    );
+
+                    Intent intent = new Intent();
+                    intent.putExtra("latitude", String.valueOf(center.latitude));
+                    intent.putExtra("longitude", String.valueOf(center.longitude));
+                    intent.putExtra("radius", radius[0]);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+            snackbar.show();
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
     }
 

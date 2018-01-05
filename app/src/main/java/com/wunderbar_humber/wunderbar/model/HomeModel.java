@@ -94,12 +94,24 @@ public class HomeModel {
         searchRestaurants();
     }
 
+    public String getLatitude() {
+        return yelpSearchParams.get("latitude");
+    }
+
     public void setLatitude(String latitude) {
         yelpSearchParams.put("latitude", latitude);
     }
 
+    public String getLongitude() {
+        return yelpSearchParams.get("longitude");
+    }
+
     public void setLongitude(String longitude) {
         yelpSearchParams.put("longitude", longitude);
+    }
+
+    public void setRadius(float radius) {
+        yelpSearchParams.put("radius", radius < 40000 ? String.valueOf((int) radius) : "40000");
     }
 
     public void setSearchTerm(String term) {

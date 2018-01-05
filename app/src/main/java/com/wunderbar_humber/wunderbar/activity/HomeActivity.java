@@ -2,6 +2,7 @@ package com.wunderbar_humber.wunderbar.activity;
 
 import android.Manifest;
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -179,15 +180,23 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.filter_restaurants) {
+
             homeModel.clearSearchTerm();
             homeModel.setCategoryToOnlyRestaurants();
             restaurantAdapter.updateData(homeModel.getBusinessList());
+
         } else if (id == R.id.filter_nightlife) {
+
             homeModel.clearSearchTerm();
             homeModel.setCategoryToOnlyRestaurants();
             restaurantAdapter.updateData(homeModel.getBusinessList());
+
         } else if (id == R.id.map_location_choose) {
 
+            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+            intent.putExtra("latitude", homeModel.getLatitude());
+            intent.putExtra("longitude", homeModel.getLongitude());
+            startActivityForResult(intent, 1);
         } else if (id == R.id.bookmarks) {
             List<Business> bookmarkBusinessList = new ArrayList<>();
             for (Bookmark bookmark :
@@ -209,6 +218,23 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    homeModel.setLatitude(data.getStringExtra("latitude"));
+                    homeModel.setLongitude(data.getStringExtra("longitude"));
+                    homeModel.setRadius(data.getFloatExtra("radius", 10000));
+                    homeModel.searchRestaurants();
+                    restaurantAdapter.updateData(homeModel.getBusinessList());
+                }
+                break;
+        }
     }
 
     /**
