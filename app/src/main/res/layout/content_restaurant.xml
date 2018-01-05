@@ -145,39 +145,89 @@
 
         </LinearLayout>
 
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/buttonsLayout"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/reviewsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/separator1"
+            android:text="Top 3 Reviews of this place"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="16sp" />
+
         <android.support.v7.widget.CardView
             android:id="@+id/firstComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonsLayout"
+            android:layout_below="@id/reviewsLabel"
             android:layout_marginTop="20dp">
 
-            <TextView
-                android:id="@+id/nameLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Michaelle D."
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/dateLabel"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/nameLabel"
-                android:gravity="end"
-                android:text="2 months ago"
-                android:textAlignment="gravity" />
+                android:orientation="vertical">
 
-            <RatingBar
-                android:id="@+id/ratingBar2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/nameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Michaelle D."
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dateLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/nameLabel"
+                    android:gravity="end"
+                    android:text="2 months ago"
+                    android:textAlignment="gravity" />
 
 
+                <RatingBar
+                    android:id="@+id/ratingBar2"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameLabel" />
+
+                <View
+                    android:id="@+id/cardSeparator1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/ratingBar2"
+                    android:layout_margin="10dp"
+
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/commentTextLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cardSeparator1"
+                    android:text="If you ever have a day off, grab a friend and head to lunch at Baretto Cafe (cafe is only open Monday to Friday and closes at 6pm). The service here is amazingly warm and we were checked on multiple times to make sure we had everything we needed. I love that you can sit for hours enjoying the delicious food and drinks here... AND they have the most adorable latte art!
+
+I had rosé pasta ($8.99) with prosciutto (+$1.50) and it was so tasty. The rosé sauce was creamy and slightly sweet and paired well with the crisp prosciutto. The rigatoni was perfectly al dente. The garlic bread was light and fresh and perfectly seasoned.
+
+I've also tried the Prosciutto Pizza ($10.99) which is topped with a generous amount of prosciutto, fresh arugula and parmigiano. The crust is light and crispy but a little thicker than I personally like.
+
+You can also get a complimentary cappuccino for checking-in on yelp.
+
+The cafe is hidden inside a medical building and is not the easiest to find but totally worth the effort to come here." />
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
