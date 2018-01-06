@@ -7,6 +7,7 @@ import com.wunderbar_humber.wunderbar.webservice.yelp.YelpGetBusinessTask;
 import com.wunderbar_humber.wunderbar.webservice.yelp.YelpInitializeApiTask;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.models.Business;
+import com.yelp.fusion.client.models.Reviews;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -20,6 +21,7 @@ import retrofit2.Call;
 public class RestaurantModel {
 
     private Business restaurant;
+    private Reviews review;
     private YelpFusionApi yelp;
     private Bookmark bookmark;
 
@@ -43,6 +45,17 @@ public class RestaurantModel {
         } catch (ExecutionException e) {
             Log.e("Yelp Business", "Exception while getting business from Yelp API", e);
         }
+
+        // get the restaurant REVIEWS from yelp
+//        Call<Reviews> call2 = yelp.getBusinessReviews(restaurantId); //review id???
+//        YelpGetReviews task2 = new YelpGetReviews();
+//        try {
+//            review = task2.execute(call2).get();
+//        } catch (InterruptedException e) {
+//            Log.e("Yelp Business REViews", "Yelp API interrupted", e);
+//        } catch (ExecutionException e) {
+//            Log.e("Yelp Business REViews", "Exception while getting business REViews from Yelp API", e);
+//        }
     }
 
     /**

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +46,7 @@ public class RestaurantActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         // get database and bookmarks
         database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().build();
         bookmarks = database.bookmarkDao().getAll();
@@ -79,6 +81,11 @@ public class RestaurantActivity extends AppCompatActivity {
         }
 
         //fill the restaurant data from API
+
+        CollapsingToolbarLayout toolbarLayout = findViewById(R.id.toolbar_layout);
+        String restaurantNameString = restaurantModel.getRestaurant().getName();
+        toolbarLayout.setTitle(restaurantNameString);
+
         double restaurantRate = restaurantModel.getRestaurant().getRating();
         float floatRestaurantRate = (float) restaurantRate;
         ratingBar = findViewById(R.id.ratingBar);
@@ -114,9 +121,12 @@ public class RestaurantActivity extends AppCompatActivity {
         String imageUrl = restaurantModel.getRestaurant().getImageUrl();
         Glide.with(this).load(imageUrl).into(image);
 
-        String restaurantNameString = restaurantModel.getRestaurant().getName();
-//        TextView restaurantName = findViewById(R.id.app_bar);
-//        restaurantName.setText(restaurantNameString);
+
+        //REVIEWS load from yelp
+
+//        String name1String = restaurantModel.getRestaurant().getRe();
+//        TextView price = findViewById(R.id.orderTextView);
+//        price.setText(priceString);
 
     }
 
