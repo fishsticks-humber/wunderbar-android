@@ -16,7 +16,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,6 +43,9 @@ public class HomeActivity extends AppCompatActivity
     private FusedLocationProviderClient locationProviderClient;
     private HomeModel homeModel;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +58,14 @@ public class HomeActivity extends AppCompatActivity
         mainRecyclerView = findViewById(R.id.list);
         mainRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         homeModel = new HomeModel("43.7289", "-79.6073");
+
+
+        findViewById(R.id.sign_in_button).setOnClickListener((View.OnClickListener) this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         restaurantAdapter = new RestaurantRecyclerViewAdapter(homeModel, new RestaurantFragment.OnListFragmentInteractionListener() {
             @Override
@@ -92,6 +108,12 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        //updateUI(account);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
