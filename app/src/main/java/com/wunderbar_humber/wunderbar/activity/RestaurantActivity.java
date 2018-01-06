@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,7 @@ public class RestaurantActivity extends AppCompatActivity {
     private TextView price;
     private TextView phone;
     private ImageView mainImage;
+    private AppBarLayout header;
 
 
     @Override
@@ -112,6 +114,9 @@ public class RestaurantActivity extends AppCompatActivity {
         String imageUrl = restaurantModel.getRestaurant().getImageUrl();
         Glide.with(this).load(imageUrl).into(image);
 
+        String restaurantNameString = restaurantModel.getRestaurant().getName();
+//        TextView restaurantName = findViewById(R.id.app_bar);
+//        restaurantName.setText(restaurantNameString);
 
     }
 
