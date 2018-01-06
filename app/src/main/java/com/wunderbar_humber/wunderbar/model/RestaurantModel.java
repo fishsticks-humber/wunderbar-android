@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
 import com.wunderbar_humber.wunderbar.webservice.yelp.YelpGetBusinessTask;
+import com.wunderbar_humber.wunderbar.webservice.yelp.YelpGetReviews;
 import com.wunderbar_humber.wunderbar.webservice.yelp.YelpInitializeApiTask;
 import com.yelp.fusion.client.connection.YelpFusionApi;
 import com.yelp.fusion.client.models.Business;
@@ -25,7 +26,7 @@ public class RestaurantModel {
     private YelpFusionApi yelp;
     private Bookmark bookmark;
 
-    public RestaurantModel(String restaurantId) {
+    public RestaurantModel(String restaurantId, String reviewId) {
         // create a yelp api instance
         try {
             yelp = new YelpInitializeApiTask().execute().get();
@@ -47,15 +48,15 @@ public class RestaurantModel {
         }
 
         // get the restaurant REVIEWS from yelp
-//        Call<Reviews> call2 = yelp.getBusinessReviews(restaurantId); //review id???
-//        YelpGetReviews task2 = new YelpGetReviews();
-//        try {
-//            review = task2.execute(call2).get();
-//        } catch (InterruptedException e) {
-//            Log.e("Yelp Business REViews", "Yelp API interrupted", e);
-//        } catch (ExecutionException e) {
-//            Log.e("Yelp Business REViews", "Exception while getting business REViews from Yelp API", e);
-//        }
+        Call<Reviews> call2 = yelp.getBusinessReviews(restaurantId, reviewId);
+        YelpGetReviews task2 = new YelpGetReviews();
+        try {
+            review = task2.execute(call2).get();
+        } catch (InterruptedException e) {
+            Log.e("Yelp Business REViews", "Yelp API interrupted", e);
+        } catch (ExecutionException e) {
+            Log.e("Yelp Business REViews", "Exception while getting business REViews from Yelp API", e);
+        }
     }
 
     /**
@@ -95,6 +96,10 @@ public class RestaurantModel {
 
     public void setRestaurant(Business restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Reviews getReview() {
+        return review;
     }
 
     public Bookmark getBookmark() {

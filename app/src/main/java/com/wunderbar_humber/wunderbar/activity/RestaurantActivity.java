@@ -74,7 +74,8 @@ public class RestaurantActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         String restaurantId = getIntent().getStringExtra("restaurantId");
-        restaurantModel = new RestaurantModel(restaurantId);
+        String reviewtId = getIntent().getStringExtra("reviewId");
+        restaurantModel = new RestaurantModel(restaurantId, reviewtId);
 
         if (restaurantModel.isBookmarked(bookmarks)) {
             bookmarkButton.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_on));
@@ -124,9 +125,10 @@ public class RestaurantActivity extends AppCompatActivity {
 
         //REVIEWS load from yelp
 
-//        String name1String = restaurantModel.getRestaurant().getRe();
-//        TextView price = findViewById(R.id.orderTextView);
-//        price.setText(priceString);
+        //String name1String = String.valueOf(restaurantModel.getReview().getReviews());
+        //String name1String = restaurantModel.getReview().get;
+        //TextView name1 = findViewById(R.id.nameLabel1);
+        //name1.setText(name1String);
 
     }
 
