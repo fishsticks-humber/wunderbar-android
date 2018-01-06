@@ -8,7 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wunderbar_humber.wunderbar.R;
 import com.wunderbar_humber.wunderbar.model.RestaurantModel;
 import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
@@ -23,6 +27,14 @@ public class RestaurantActivity extends AppCompatActivity {
     private AppDatabase database;
     private FloatingActionButton bookmarkButton;
     private List<Bookmark> bookmarks;
+    private RatingBar ratingBar;
+    private TextView reviewCounter;
+    private TextView address;
+    private TextView hours;
+    private TextView price;
+    private TextView phone;
+    private ImageView mainImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +75,44 @@ public class RestaurantActivity extends AppCompatActivity {
         if (restaurantModel.isBookmarked(bookmarks)) {
             bookmarkButton.setImageDrawable(getResources().getDrawable(android.R.drawable.btn_star_big_on));
         }
+
+        //fill the restaurant data from API
+        double restaurantRate = restaurantModel.getRestaurant().getRating();
+        float floatRestaurantRate = (float) restaurantRate;
+        ratingBar = findViewById(R.id.ratingBar);
+        ratingBar.setRating(floatRestaurantRate);
+        ratingBar.setStepSize(floatRestaurantRate);
+
+        String reviewCounterString = String.valueOf(restaurantModel.getRestaurant().getReviewCount());
+        TextView reviewCounter = findViewById(R.id.reviewCounter);
+        reviewCounter.setText("(" + reviewCounterString + " Reviews)");
+
+        String addressString = restaurantModel.getRestaurant().getLocation().getAddress1();
+        TextView address = findViewById(R.id.addressTextView);
+        address.setText(addressString);
+
+        //in yelp API hours field is an array of data, fix if time available.
+//        String hoursString = String.valueOf(restaurantModel.getRestaurant().getHours());
+//        TextView hours = findViewById(R.id.hoursTextView);
+//        hours.setText(hoursString);
+
+        String priceString = restaurantModel.getRestaurant().getPrice();
+        TextView price = findViewById(R.id.orderTextView);
+        price.setText(priceString);
+
+        String phoneString = restaurantModel.getRestaurant().getPhone();
+        TextView phone = findViewById(R.id.phoneTextView);
+        phone.setText(phoneString);
+
+//        String imageUrl = restaurantModel.getRestaurant().getImageUrl();
+//        ImageView image = findViewById(R.id.imageView);
+//        image.setImageURI(Uri.parse(imageUrl));
+
+        ImageView image = findViewById(R.id.imageView2);
+        String imageUrl = restaurantModel.getRestaurant().getImageUrl();
+        Glide.with(this).load(imageUrl).into(image);
+
+
     }
 
     public void openMap(View view) {
