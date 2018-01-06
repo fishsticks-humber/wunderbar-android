@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "792575356439",
+    "project_id": "wunderbar-b6d07"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792575356439:android:c2f95d075460c2db",
+        "android_client_info": {
+          "package_name": "com.wunderbar_humber.wunderbar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792575356439-0822p5rcc2cn4r7is0q32giut0utjujn.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "792575356439-apgsobk6l2uqhsnikf8l1tjrtve3mofl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wunderbar_humber.wunderbar",
+            "certificate_hash": "55c92ef9c8caffa4e72940036552e864c59eea09"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZVrnTMdwrVIDxasBiWrerPR5JbQZsmFY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
