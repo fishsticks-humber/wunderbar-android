@@ -1,20 +1,20 @@
 package com.wunderbar_humber.wunderbar.webservice.yelp;
 
 import com.yelp.fusion.client.connection.YelpFusionApi;
-import com.yelp.fusion.client.models.Business;
+import com.yelp.fusion.client.models.Reviews;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import retrofit2.Call;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 /**
  * Created by mohit on 2018-01-01.
  */
-public class YelpGetBusinessTaskTest {
+public class YelpGetReviewsTaskTest {
     private YelpFusionApi api;
 
     @Before
@@ -24,11 +24,12 @@ public class YelpGetBusinessTaskTest {
 
     @Test
     public void getBusiness() throws Exception {
-        YelpGetBusinessTask task = new YelpGetBusinessTask();
-        Call<Business> call = api.getBusiness("saffron-valley-south-jordan");
-        Business business = task.execute(call).get();
+
+        YelpGetReviewsTask task = new YelpGetReviewsTask();
+        Call<Reviews> call = api.getBusinessReviews("saffron-valley-south-jordan", "en_CA");
+        Reviews reviews = task.execute(call).get();
 
         assertNull("There should be no exceptions", task.exception);
-        assertEquals("saffron-valley-south-jordan", business.getId());
+        assertNotNull(reviews);
     }
 }

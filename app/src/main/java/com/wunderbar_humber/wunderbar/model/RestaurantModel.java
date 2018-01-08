@@ -11,7 +11,6 @@ import com.yelp.fusion.client.models.Business;
 import com.yelp.fusion.client.models.Reviews;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -40,7 +39,7 @@ public class RestaurantModel {
         // get the restaurant from yelp
         Call<Business> call = yelp.getBusiness(restaurantId);
         YelpGetBusinessTask task = new YelpGetBusinessTask();
-        Call<Reviews> reviewsCall = yelp.getBusinessReviews(restaurantId, Locale.ENGLISH.toString());
+        Call<Reviews> reviewsCall = yelp.getBusinessReviews(restaurantId, "en_CA");
         YelpGetReviewsTask reviewsTask = new YelpGetReviewsTask();
 
         try {
