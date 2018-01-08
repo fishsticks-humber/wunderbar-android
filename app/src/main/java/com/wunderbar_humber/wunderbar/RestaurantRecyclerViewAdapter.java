@@ -104,7 +104,7 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
 
                 Uri uri = Uri.parse(uberUrl);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                context.startActivity(intent);
+                context.startActivity(intent); //123
             }
         });
 
