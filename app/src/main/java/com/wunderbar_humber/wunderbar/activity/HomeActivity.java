@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         // get database and bookmarks
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
         // populate the recycler view using the adapter
         mainRecyclerView = findViewById(R.id.list);

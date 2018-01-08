@@ -49,7 +49,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
 
         // get database and bookmarks
-        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().build();
+        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "bookmark-database").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         bookmarks = database.bookmarkDao().getAll();
 
         // set up bookmark button and click listener
@@ -57,6 +57,7 @@ public class RestaurantActivity extends AppCompatActivity {
         bookmarkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                bookmarks = database.bookmarkDao().getAll();
                 if (restaurantModel.isBookmarked(bookmarks)) {
                     Bookmark bookmark = restaurantModel.getBookmark();
                     database.bookmarkDao().delete(bookmark);

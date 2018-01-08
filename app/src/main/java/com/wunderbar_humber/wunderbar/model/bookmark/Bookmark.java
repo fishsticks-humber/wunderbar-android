@@ -2,6 +2,7 @@ package com.wunderbar_humber.wunderbar.model.bookmark;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -9,7 +10,9 @@ import android.support.annotation.NonNull;
  * Created by mohit on 2018-01-04.
  */
 
-@Entity
+@Entity(indices = {
+        @Index(value = "restaurantid", unique = true)
+})
 public class Bookmark {
 
     @PrimaryKey(autoGenerate = true)
