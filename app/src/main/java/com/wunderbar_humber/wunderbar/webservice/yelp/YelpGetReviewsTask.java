@@ -17,7 +17,7 @@ import retrofit2.Response;
  *
  * @see <a href="https://github.com/ranga543/yelp-fusion-android">Yelp Fusion API Android</a>
  */
-public class YelpGetReviews extends AsyncTask<Call<Reviews>, Void, Reviews> {
+public class YelpGetReviewsTask extends AsyncTask<Call<Reviews>, Void, Reviews> {
 
     Exception exception;
 
