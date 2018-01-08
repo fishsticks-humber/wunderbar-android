@@ -140,7 +140,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
-                android:text="Comment"
+                android:onClick="openYelp"
+                android:text="Yelp"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>

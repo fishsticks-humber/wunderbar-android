@@ -183,5 +183,13 @@ public class RestaurantActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openYelp(View view) {
+        String yelpUrl = "https://www.yelp.com/biz/"
+                + restaurantModel.getRestaurant().getId();
+        Uri uri = Uri.parse(yelpUrl);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
 
 }
