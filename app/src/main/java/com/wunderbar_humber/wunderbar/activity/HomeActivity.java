@@ -27,6 +27,7 @@ import com.wunderbar_humber.wunderbar.RestaurantRecyclerViewAdapter;
 import com.wunderbar_humber.wunderbar.model.HomeModel;
 import com.yelp.fusion.client.models.Business;
 
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
