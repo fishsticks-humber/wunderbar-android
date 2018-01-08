@@ -19,6 +19,7 @@ import com.wunderbar_humber.wunderbar.R;
 import com.wunderbar_humber.wunderbar.model.RestaurantModel;
 import com.wunderbar_humber.wunderbar.model.bookmark.Bookmark;
 import com.wunderbar_humber.wunderbar.model.db.AppDatabase;
+import com.yelp.fusion.client.models.Review;
 
 import java.net.URLEncoder;
 import java.util.List;
@@ -128,6 +129,36 @@ public class RestaurantActivity extends AppCompatActivity {
 //        TextView price = findViewById(R.id.orderTextView);
 //        price.setText(priceString);
 
+        Review review1 = restaurantModel.getReviews().getReviews().get(0);
+        TextView name1 = findViewById(R.id.nameLabel1);
+        name1.setText(review1.getUser().getName());
+        TextView date1 = findViewById(R.id.dateLabel1);
+        date1.setText(review1.getTimeCreated());
+        RatingBar ratebar1 = findViewById(R.id.ratingBar1);
+        ratebar1.setRating(review1.getRating());
+        TextView comment1 = findViewById(R.id.commentTextLabel1);
+        comment1.setText(review1.getText());
+
+        Review review2 = restaurantModel.getReviews().getReviews().get(1);
+        TextView name2 = findViewById(R.id.nameLabel2);
+        name2.setText(review2.getUser().getName());
+        TextView date2 = findViewById(R.id.dateLabel2);
+        date2.setText(review2.getTimeCreated());
+        RatingBar ratebar2 = findViewById(R.id.ratingBar2);
+        ratebar2.setRating(review2.getRating());
+        TextView comment2 = findViewById(R.id.commentTextLabel2);
+        comment2.setText(review2.getText());
+
+
+        Review review3 = restaurantModel.getReviews().getReviews().get(2);
+        TextView name3 = findViewById(R.id.nameLabel3);
+        name3.setText(review3.getUser().getName());
+        TextView date3 = findViewById(R.id.dateLabel3);
+        date3.setText(review3.getTimeCreated());
+        RatingBar ratebar3 = findViewById(R.id.ratingBar3);
+        ratebar3.setRating(review3.getRating());
+        TextView comment3 = findViewById(R.id.commentTextLabel3);
+        comment3.setText(review3.getText());
     }
 
     public void openMap(View view) {

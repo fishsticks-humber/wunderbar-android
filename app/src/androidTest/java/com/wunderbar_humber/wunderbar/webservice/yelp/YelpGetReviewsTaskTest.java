@@ -26,7 +26,7 @@ public class YelpGetReviewsTaskTest {
     public void getBusiness() throws Exception {
 
         YelpGetReviewsTask task = new YelpGetReviewsTask();
-        Call<Reviews> call = api.getBusinessReviews("saffron-valley-south-jordan", "en_CA");
+        Call<Reviews> call = api.getBusinessReviews("osmows-toronto-4", "en_CA");
         Reviews reviews = task.execute(call).get();
 
         assertNull("There should be no exceptions", task.exception);
