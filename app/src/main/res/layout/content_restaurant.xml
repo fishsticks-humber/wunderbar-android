@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.wunderbar_humber.wunderbar.activity.RestaurantActivity"
+    tools:showIn="@layout/activity_restaurant">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/reviewCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/ratingBar"
+            android:text="(103 Reviews)" />
+
+        <TextView
+            android:id="@+id/addressLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ratingBar"
+            android:layout_marginTop="10dp"
+            android:text="Address: "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ratingBar"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/addressLabel"
+            android:text="19 alswinckle" />
+
+        <TextView
+            android:id="@+id/hoursLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressLabel"
+            android:text="Hours: "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/hoursTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressTextView"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/hoursLabel"
+            android:text="10AM - 10PM" />
+
+        <TextView
+            android:id="@+id/orderLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hoursLabel"
+            android:text="Price: "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/orderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hoursTextView"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/orderLabel"
+            android:text="$$$$$$$$$" />
+
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/orderLabel"
+            android:text="Phone: "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phoneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/orderTextView"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/phoneLabel"
+            android:text="+1(607)2892255" />
+
+        <LinearLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phoneLabel"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/mapsButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:onClick="openMap"
+                android:text="MAP"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/uberButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:onClick="requestUber"
+                android:text="UBER"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/commentButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:onClick="openYelp"
+                android:text="Yelp"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/buttonsLayout"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/reviewsLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/separator1"
+            android:text="Top 3 Reviews of this place"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="16sp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/firstComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reviewsLabel"
+            android:layout_marginTop="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameLabel1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Michaelle D."
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dateLabel1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/nameLabel1"
+                    android:gravity="end"
+                    android:text="2 months ago"
+                    android:textAlignment="gravity" />
+
+
+                <RatingBar
+                    android:id="@+id/ratingBar1"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameLabel1" />
+
+                <View
+                    android:id="@+id/cardSeparator1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/ratingBar1"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/commentTextLabel1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cardSeparator1"
+                    android:layout_marginBottom="15dp"
+                    android:text="If you ever have a day off, grab a friend and head to lunch at Baretto Cafe (cafe is only open Monday to Friday and closes at 6pm). The service here is amazingly warm and we were checked on multiple times to make sure we had everything we needed. I love that you can sit for hours enjoying the delicious food and drinks here... AND they have the most adorable latte art!
+
+I had rosé pasta ($8.99) with prosciutto (+$1.50) and it was so tasty. The rosé sauce was creamy and slightly sweet and paired well with the crisp prosciutto. The rigatoni was perfectly al dente. The garlic bread was light and fresh and perfectly seasoned.
+
+I've also tried the Prosciutto Pizza ($10.99) which is topped with a generous amount of prosciutto, fresh arugula and parmigiano. The crust is light and crispy but a little thicker than I personally like.
+
+You can also get a complimentary cappuccino for checking-in on yelp.
+
+The cafe is hidden inside a medical building and is not the easiest to find but totally worth the effort to come here." />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/secondComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/firstComment"
+            android:layout_marginTop="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameLabel2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chantell B."
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dateLabel2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/nameLabel2"
+                    android:gravity="end"
+                    android:text="3 months ago"
+                    android:textAlignment="gravity" />
+
+
+                <RatingBar
+                    android:id="@+id/ratingBar2"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameLabel2" />
+
+                <View
+                    android:id="@+id/cardSeparator2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/ratingBar2"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/commentTextLabel2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cardSeparator2"
+                    android:layout_marginBottom="15dp"
+                    android:text="Baretto is the quintessential hidden gem. Discovered by a coworker of mine, a fellow foodie. This quaint caffé and eatery is connected to a medical building. So random. But totally holds its own with a small but chiche store from and glassed in seating area. The owner and cook makes almost everything to order, mainly the fresh pastas. Uniquely he does this with a pan on a panini grill! I got an amaretto cappuccino and my friend got the rigatoni in a rose sauce as well as an amaretto latte. I'm a coffee snob but I was so surprised with the quality and flavour of my cappuccino. It was amazingly flavourful and full bodied.
+
+Recently returning from a trip to Italy I didn't have the highest of hopes for this Italian coffee shop but damn, this coffee gave me the feels. My friend said she loved the latte and pasta - she even returned back there a second time this week for the same order. Also! Since the pasta is made to order you can call in your order a head of time.
+
+Baretto is top rated in Toronto on Yelp and I can see why. It's quality over quantity. The people were so friendly, the food was apparently great but the selling point for me was that lovely amaretto cappuccino." />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/thirdComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/secondComment"
+            android:layout_marginTop="20dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nameLabel3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shubni A."
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dateLabel3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/nameLabel3"
+                    android:gravity="end"
+                    android:text="1 months ago"
+                    android:textAlignment="gravity" />
+
+
+                <RatingBar
+                    android:id="@+id/ratingBar3"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameLabel3" />
+
+                <View
+                    android:id="@+id/cardSeparator3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/ratingBar3"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/commentTextLabel3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cardSeparator3"
+                    android:layout_marginBottom="15dp"
+                    android:text="A hidden gem near my home. Found this place while passing nearby. Who knew, this could be the end of my cafe search! The place serves aromatic Italian coffees, with cute coffee art. The service is exceptionally great. Plus there is a free coffee/tea on the Yelp check-in with an order of ideally, it says with a pizza but the owner is generous enough to give you a free coffee with any other purchase. However, if you are visiting this cafe, you can't just leave without having a bite, so be it a dessert or a snack or a pizza. Everything is just outstanding. The cheesecakes are out of the world. Pizzas are thin, fresh and crisp.
+
+The coffee is strong and free from bitterness and aftertaste. It tastes delicious, a truly Italian coffee. I love their Cappuccino and Double espresso macchiato. They are soon starting to sell Italian coffee beans. Btw it is truly a hidden gem, behind some medical building, on the main floor." />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

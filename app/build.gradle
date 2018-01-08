@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.wunderbar_humber.wunderbar"
         minSdkVersion 21
@@ -34,9 +34,13 @@ dependencies {
     compile 'io.github.ranga543:yelp-fusion-client:0.1.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 
     implementation 'com.google.android.gms:play-services-location:11.6.0'
     implementation 'com.google.android.gms:play-services-maps:11.6.0'
+
+    compile 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 
     testCompile 'junit:junit:4.12'
 }
