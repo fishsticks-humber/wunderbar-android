@@ -50,9 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sign_out"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            android:visibility="visible"
-            tools:visibility="gone"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
     </RelativeLayout>
 

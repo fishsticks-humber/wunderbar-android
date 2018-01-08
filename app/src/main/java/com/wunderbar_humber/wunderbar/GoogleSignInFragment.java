@@ -22,7 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
@@ -47,6 +49,7 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     private ImageView imgProfilePic;
+    GoogleSignInClient googleSignInClient;
 
 
 
@@ -58,14 +61,39 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-      mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+        googleSignInClient = GoogleSignIn.getClient(this.getContext(), gso);
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
 
 
     }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+            case R.id.sign_out_button:
+                signOut();
+                break;
 
+        }
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut(){
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                updateUI(false);
+            }
+        });
+    }
 
     @Override
     public void onStart() {
@@ -133,7 +161,6 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
@@ -144,18 +171,16 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             assert acct != null;
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //Similarly you can get the email and photourl using acct.getEmail() and  acct.getPhotoUrl()
 
             if(acct.getPhotoUrl() != null)
                 new LoadProfileImage(imgProfilePic).execute(acct.getPhotoUrl().toString());
 
             updateUI(true);
         } else {
-            // Signed out, show unauthenticated UI.
+
             updateUI(false);
         }
     }
@@ -178,8 +203,7 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
+
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
@@ -201,9 +225,7 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     }
 
 
-    /**
-     * Background Async task to load user profile picture from url
-     * */
+
     private class LoadProfileImage extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
