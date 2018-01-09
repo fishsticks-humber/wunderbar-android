@@ -122,7 +122,7 @@ public class RestaurantActivity extends AppCompatActivity {
 
         //REVIEWS load from yelp
 
-        if (restaurantModel.getReviews().getTotal >= 3) {    
+        if (restaurantModel.getReviews().getTotal() >= 3) {    
             Review review1 = restaurantModel.getReviews().getReviews().get(0);
             TextView name1 = findViewById(R.id.nameLabel1);
             name1.setText(review1.getUser().getName());
