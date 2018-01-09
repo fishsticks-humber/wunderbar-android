@@ -72,21 +72,21 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
-                signIn();
+                signIn(v);
                 break;
             case R.id.sign_out_button:
-                signOut();
+                signOut(v);
                 break;
 
         }
     }
 
-    private void signIn() {
+    private void signIn(View view) {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void signOut(){
+    private void signOut(View view){
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
@@ -131,7 +131,7 @@ public class GoogleSignInFragment extends Fragment implements GoogleApiClient.On
         imgProfilePic.setImageBitmap(ImageHelper.getRoundedCornerBitmap(getContext(),icon, 200, 200, 200, false, false, false, false));
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
